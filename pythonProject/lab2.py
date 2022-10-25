@@ -9,13 +9,18 @@ X = np.arange(-2, 2, 0.1)
 Y = np.arange(-1.5, 3, 0.1)
 X, Y = np.meshgrid(X, Y)
 # Функция Розенброка
-Z = X ** 2 - 2 * X * Y + 6 * (Y ** 2) + X - Y
+Z = X**2 - 2 * X * Y + 6 * (Y**2) + X - Y
 #
 fig = plt.figure()
 # Будем выводить 3d-проекцию графика функции
 ax = fig.add_subplot(projection='3d')
 # Вывод поверхности
-surf = ax.plot_surface(X, Y, Z, cmap=cm.Spectral, linewidth=0, antialiased=False)
+surf = ax.plot_surface(X,
+                       Y,
+                       Z,
+                       cmap=cm.Spectral,
+                       linewidth=0,
+                       antialiased=False)
 # Метки осей координат
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
@@ -40,7 +45,7 @@ plt.show()
 
 
 def func(X):
-    return X[0] ** 2 - 2 * X[0] * X[1] + 6 * (X[1] ** 2) + X[0] - X[1]
+    return X[0]**2 - 2 * X[0] * X[1] + 6 * (X[1]**2) + X[0] - X[1]
 
 
 def fun_der(X):
@@ -54,7 +59,11 @@ x0[0] = -5.0
 x0[1] = 10.0
 xtol = 1.0e-3  # Точность поиска экстремума
 # Находим минимум функции
-res = opt.minimize(func, x0, method='Nelder-Mead', options={'xtol': xtol, 'disp': True})
-res1 = opt.minimize(func, x0, tol=xtol, method='Newton-CG',jac=fun_der)
+res = opt.minimize(func,
+                   x0,
+                   method='Nelder-Mead',
+                   tol=xtol
+                   )
+res1 = opt.minimize(func, x0, tol=xtol, method='Newton-CG', jac=fun_der)
 print(f'Метод Нелдера-Мида:{res}')
 print(f'Метода Ньютона-Рафсона: {res1}')
