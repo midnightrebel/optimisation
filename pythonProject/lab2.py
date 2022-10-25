@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as opt
 from matplotlib import cm
+from numdifftools import Jacobian
 
 # Формирование сетки
 X = np.arange(-2, 2, 0.1)
@@ -42,6 +43,10 @@ def func(X):
     return X[0] ** 2 - 2 * X[0] * X[1] + 6 * (X[1] ** 2) + X[0] - X[1]
 
 
+def fun_der(X):
+    return Jacobian(lambda x: func(x))(X).ravel()
+
+
 n = 2
 x0 = np.zeros(2, dtype=float)  # Вектор с двумя элементами типа float
 # Начальная точка поиска минимума функции
@@ -50,6 +55,6 @@ x0[1] = 10.0
 xtol = 1.0e-3  # Точность поиска экстремума
 # Находим минимум функции
 res = opt.minimize(func, x0, method='Nelder-Mead', options={'xtol': xtol, 'disp': True})
-res1 = opt.minimize(func, x0, tol=xtol, method='Newton-CG')
+res1 = opt.minimize(func, x0, tol=xtol, method='Newton-CG',jac=fun_der)
 print(f'Метод Нелдера-Мида:{res}')
 print(f'Метода Ньютона-Рафсона: {res1}')
