@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Applications API
+  version: 1.0.0
+  description: OpenAPI для получения данных для составления заявок
+servers:
+  - url: ''
+
+tags:
+  - name: applications
+    description: functional_manager_id - ID функционального руководителя у пользователя
+                 "id" - ID пользователя
+                 "full_name" - Полное имя пользователя
+                 "group_path" - Путь к группе пользователя
+security:
+  - Bearer: [
+      in: header,
+      name: Authorization,
+      type: apiKey
+]
+paths:
+  /{user_id}/application/:
+    get:
+      summary: Получить нужные данные для вёрстки карточки
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+            format: uuid
+          description: id пользователя
+          required: true
+      tags:
+      - application
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedApplicationList'
+          description: ''
